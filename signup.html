@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Galaxy Chores Login</title>
-<link rel="stylesheet" href="login.css">
+<title>Galaxy Chores Signup</title>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
@@ -14,14 +13,13 @@
 </head>
 
 <body>
-  <h1> Galaxy Chores </h1>
+  <h1> Signup </h1>
   <div id="header"></div>
     <div id="header"></div>
+    <input type="text" placeholder="Enter Username" id="user" name="user" required>
     <input type="email" placeholder="Enter Email" id="email" required>
-    <input type="password" placeholder="Enter Password" id="password" name="psw" required>
-    <button onclick="signup()" id="signup"> Sign up </button>
-    <button onclick="login()" id="login"> Login </button>
-    <button onclick="forgotPassword()" id="forgotPassword"> forgotPassword </button>
+    <input type="password" placeholder="Create Password" id="password" name="psw" required>
+    <button onclick="signupclick()" id="signup"> Sign up </button>
         
       
 

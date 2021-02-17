@@ -18,11 +18,17 @@ firebase.analytics();
 const auth = firebase.auth();
 
 function signup(){
+    window.location="signup.html"
+}
+
+function signupclick(){
+    var user = document.getElementById("user")
     var email = document.getElementById("email");
     var password = document.getElementById("password");
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
-    alert("You Signed Up");
+    alert(user.value + " Signed Up");
+    window.location="home.html"
 }
 
 function login(){
@@ -30,33 +36,34 @@ function login(){
     var password = document.getElementById("password");
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.catch(e => alert(e.message));
-    alert("Logged In " + email.value);
-    //Jump to another page!
+    alert(email.value + " Logged In");
+    window.location="home.html";
 }
 
 function logout(){
-    auth.logout()
+    auth.logout();
     alert("You Logged Out");
-    // Put this on another page
+    window.location="login.html";
 }
 
-auth.onAuthStateChanged(function(user){
-    if(user){
-        var email = user.email;
-        alert("Active User " + email);
-    }
-
-    else{
-        alert("No user is signed in");
-    }
-});
-
 function forgotPassword(){
-    window.location="resetPassword.html"
+    window.location="resetPassword.html";
 }
 
 function sendEmail(){
     var inputEmail = document.getElementById("inputEmail");
-    firebase.auth().sendPasswordResetEmail(inputEmail.value)
+    firebase.auth().sendPasswordResetEmail(inputEmail.value);
     alert("Password Recovery Email Sent");
+}
+
+function settings(){
+    window.loctaion="settings.html";
+}
+
+const preObject = document.getElementById("object");
+const dbRefObject = firebase.database().ref().child("object");
+dbRefObject.on("value", snap => console.log(snap.val()));
+
+function changeuser(){
+    var user = document.getElementById("user");
 }
