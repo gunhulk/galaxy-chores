@@ -16,6 +16,8 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 const auth = firebase.auth();
+var database = firebase.database();
+
 
 function signup(){
     window.location="signup.html"
@@ -26,24 +28,36 @@ function signupclick(){
     var email = document.getElementById("email");
     var password = document.getElementById("password");
     const promise = auth.createUserWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
-    alert(user.value + " Signed Up");
-    window.location="home.html"
+    promise.then(cred => {
+        alert("You signed up! Now login with your credentials.")
+        window.location="login.html";
+    })
+    promise.catch(e => {
+        alert(e.message);
+    })
 }
 
 function login(){
     var email = document.getElementById("email");
     var password = document.getElementById("password");
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
-    promise.catch(e => alert(e.message));
-    alert(email.value + " Logged In");
-    window.location="home.html";
+    promise.then(cred => {
+        window.location="home.html";
+        var userId = firebase.auth().currentUser.uid;
+        database.ref("users/" + userId).set({
+            email: email.value
+    });
+    })
+    promise.catch(e => {
+        alert(e.message);
+    })  
 }
 
 function logout(){
-    auth.logout();
-    alert("You Logged Out");
+    auth.signOut();
     window.location="login.html";
+    alert("You Logged Out");
+    
 }
 
 function forgotPassword(){
@@ -57,13 +71,40 @@ function sendEmail(){
 }
 
 function settings(){
-    window.loctaion="settings.html";
+    window.location="settings.html";
 }
-
-const preObject = document.getElementById("object");
-const dbRefObject = firebase.database().ref().child("object");
-dbRefObject.on("value", snap => console.log(snap.val()));
 
 function changeuser(){
-    var user = document.getElementById("user");
+    var userId = firebase.auth().currentUser.uid;
+    database.ref("users/" + userId).set({
+        name: document.getElementById("user").value
+    });
+    displayUser();
 }
+
+function displayUser(){
+    database.ref("/users/").once('value' , function(snapshot){
+        snapshot.forEach(function(childSnapshot)
+        {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            document.getElementById("display").innerHTML = childData['name']
+        })
+    })
+}
+
+function displayEmail(){
+    database.ref("/users/").once('value' , function(snapshot){
+        snapshot.forEach(function(childSnapshot)
+        {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+            document.getElementById("display").innerHTML = childData['email']
+        })
+    })
+}
+  
+function home(){
+    window.location="home.html";
+}
+
