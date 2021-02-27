@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Galaxy Chores Create Missions</title>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use -->
+<!--<script src="https://firebase.google.com/docs/web/setup#available-libraries"></script>-->
+<script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
+<script src="login.js"></script>
+</head>
+
+<body>
+    <script>
+    displayChores();
+    displayUser()
+    </script>
+    <h1> Hello! </h1>
+    <h1 id = "display"></h1>
+
+    <h1> Create Mission </h1>
+    <input type="text" placeholder="Mission name" id="cName">
+    <input type="text" placeholder="Mission Description" id="cDescription">
+    <input type="number" placeholder="Credits" id="cCredits">
+    <input type="number" placeholder="Experience Points" id="cExp">
+    <button onclick="createchore()" id="createchore"> Create Mission </button>
+    <button onclick="home()">Back</button>
+
+    <h1> Your Missions </h1>
+    <h1 id = "displayChores"></h1>     
+</body>
+</html>

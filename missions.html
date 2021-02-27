@@ -14,16 +14,17 @@
 </head>
 
 <body>
-    <script>
-    displayUser();
-    </script>
+    <script>displayUser();</script>
     <h1> Hello! </h1>
     <h1 id = "display"></h1>
-    <button onclick="explore()" id="explore"> EXPLORE </button>
-    <button onclick="createchores()" id="createchores"> Create Chores </button>
-    <button onclick="logout()" id="logout"> Logout </button>
-    <button onclick="settings()" id="settings"> Settings </button>
-    <button onclick="missions()" id="missions">Missions</button>
+    <h1>Missions</h1>
+    <script>displayChores()</script>
+    <h1 id = displayChores></h1>
+    <h1>Credits</h1>
+    <script>displayCredits()</script>
+    <h1 id = displayCredits></h1>
+    
+    <button onclick="done()" id="done"> Mission Complete </button>
         
       
 </body>
