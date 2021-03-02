@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Galaxy Chores Home</title>
+<title>Galaxy Chores</title>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
@@ -14,15 +14,17 @@
 </head>
 
 <body>
-    <script>
-    displayUser();
-    </script>
-    <h1> Hello! </h1>
-    <h1 id = "display"></h1>
-    <button onclick="createchores()" id="createchores"> Create Missions </button>
-    <button onclick="logout()" id="logout"> Logout </button>
-    <button onclick="settings()" id="settings"> Settings </button>
-    <button onclick="missions()" id="missions">Missions</button>
+    <h1> Welcome to Galaxy Chores! </h1>
+    <h1>Please set up your account</h1>
+
+    <input type="text" placeholder="Username" id="user">
+    <label for="permissions">Type of account</label>
+    <select id="permissions">
+    <option value="parent" id="p">Parent</option>
+    <option value="child" id="c">Child</option>
+    </select>
+
+    <button onclick="setup()" id="setup">Submit</button>
         
       
 </body>

@@ -25,23 +25,28 @@ function signup(){
 
 //Not working
 function signupclick(){
-    //var user = document.getElementById("user");
     var emails = document.getElementById("email");
     var password = document.getElementById("password");
+    
     const promise = auth.createUserWithEmailAndPassword(emails.value, password.value);
     promise.then(cred => {
-        firebase.database().ref("/users/" + user.uid).set({
-            name: document.getElementById("user").value,
-            email: document.getElementById("email").value
-        });
-    })
-    promise.then(() => {
         alert("You signed up! Now login with your credentials.");
         window.location="login.html"; 
-    }) 
+    });       
     promise.catch(e => {
         alert(e.message);
-    })
+    });
+}
+
+function setup(){ 
+    var user = firebase.auth().currentUser;
+    var userId = user.uid;
+    var email = user.email;
+    var uListRef = firebase.database().ref('users/' + userId);
+    uListRef.set({
+        name: document.getElementById("user").value,
+        email: email
+});
 }
 
 function login(){
@@ -49,7 +54,7 @@ function login(){
     var password = document.getElementById("password");
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.then(cred => {
-        window.location="home.html";
+        window.location="setup.html";
     })
     promise.catch(e => {
         alert(e.message);
@@ -83,15 +88,16 @@ function displayUser(){
             var r = firebase.database().ref('/users/' + user.uid + "/name");
             r.on('value', (snapshot) => {
             const data = snapshot.val();
-            document.getElementById("display").innerHTML = JSON.stringify(data)
+            document.getElementById("display").innerHTML = data;
     });
         } else {
           // No user is signed in.
             document.getElementById("display").innerHTML = "You are not signed in!"
         }
-      });
-    
+      });  
 }
+
+//JSON.stringify(data)
   
 function home(){
     window.location="home.html";
@@ -134,7 +140,7 @@ function displayChores(){
             var r = firebase.database().ref('/users/' + user.uid + "/chores");
             r.on('value', (snapshot) => {
             const data = snapshot.val();
-            document.getElementById("displayChores").innerHTML = JSON.stringify(data)
+            document.getElementById("displayChores").innerHTML = data
     });
         } 
         else {
@@ -143,6 +149,7 @@ function displayChores(){
     });
 }
 
+//Not working
 function displayCredits(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -160,6 +167,7 @@ function displayCredits(){
       });
 }
 
+//Need to do
 function done(){
     
 
