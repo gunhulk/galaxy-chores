@@ -23,11 +23,9 @@ function signup(){
     window.location="signup.html"
 }
 
-//Not working
 function signupclick(){
     var emails = document.getElementById("email");
     var password = document.getElementById("password");
-    
     const promise = auth.createUserWithEmailAndPassword(emails.value, password.value);
     promise.then(cred => {
         alert("You signed up! Now login with your credentials.");
@@ -45,7 +43,12 @@ function setup(){
     var uListRef = firebase.database().ref('users/' + userId);
     uListRef.set({
         name: document.getElementById("user").value,
-        email: email
+        email: email,
+        ccredits: 0,
+        cexp: 0,
+        setup: "done"
+}).then(function() {
+    window.location = "home.html";
 });
 }
 
@@ -54,8 +57,21 @@ function login(){
     var password = document.getElementById("password");
     const promise = auth.signInWithEmailAndPassword(email.value, password.value);
     promise.then(cred => {
-        window.location="setup.html";
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                var r = firebase.database().ref('/users/' + user.uid + "/setup");
+                r.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if("done" === data){
+                    window.location="home.html";
+                }
+                else{
+                    window.location="setup.html";
+                }
+            })
+        }
     })
+        });
     promise.catch(e => {
         alert(e.message);
     })  
