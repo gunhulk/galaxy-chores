@@ -44,8 +44,8 @@ function setup(){
     uListRef.set({
         name: document.getElementById("user").value,
         email: email,
-        ccredits: 0,
-        cexp: 0,
+        credits: 0,
+        exp: 0,
         setup: "done"
 }).then(function() {
     window.location = "home.html";
@@ -97,23 +97,69 @@ function settings(){
     window.location="settings.html";
 }
 
-function displayUser(){
+function displayUserName(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
             var r = firebase.database().ref('/users/' + user.uid + "/name");
             r.on('value', (snapshot) => {
             const data = snapshot.val();
-            document.getElementById("display").innerHTML = data;
+            document.getElementById("displayName").innerHTML = data;
     });
         } else {
           // No user is signed in.
-            document.getElementById("display").innerHTML = "You are not signed in!"
+            document.getElementById("displayName").innerHTML = "You are not signed in!"
         }
       });  
 }
 
-//JSON.stringify(data)
+function displayUserEmail(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+            var r = firebase.database().ref('/users/' + user.uid + "/email");
+            r.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById("displayEmail").innerHTML = data;
+    });
+        } else {
+          // No user is signed in.
+            document.getElementById("displayEmail").innerHTML = "You are not signed in!"
+        }
+      });  
+}
+
+function displayUserExp(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+            var r = firebase.database().ref('/users/' + user.uid + "/exp");
+            r.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById("displayExp").innerHTML = data;
+    });
+        } else {
+          // No user is signed in.
+            document.getElementById("displayExp").innerHTML = "You are not signed in!"
+        }
+      });  
+}
+
+function displayUserCredits(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+            var r = firebase.database().ref('/users/' + user.uid + "/credits");
+            r.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById("displayCredits").innerHTML = data;
+    });
+        } else {
+          // No user is signed in.
+            document.getElementById("displayCredits").innerHTML = "You are not signed in!"
+        }
+      });  
+}
   
 function home(){
     window.location="home.html";
@@ -121,10 +167,11 @@ function home(){
 
 function changeuser(){
     var userId = firebase.auth().currentUser.uid;
-    database.ref("users/" + userId).set({
-        name: document.getElementById("user").value
-    });
-    displayUser();
+    database.ref("users/" + userId).update({name: document.getElementById("user").value});
+    displayUserName();
+    displayUserEmail();
+    displayUserExp();
+    displayUserCredits();
 }
 
 function createchores(){
@@ -139,7 +186,8 @@ function createchore(){
     var userId = firebase.auth().currentUser.uid;
     var choreListRef = firebase.database().ref('users/' + userId + "/chores");
     var newChoreRef = choreListRef.push();
-    newChoreRef.set({
+    newChoreRef.update({
+        clocation: document.getElementById("cLocation").value,
         cname: document.getElementById("cName").value,
         cdescription: document.getElementById("cDescription").value,
         ccredits: +document.getElementById("cCredits").value,
@@ -149,38 +197,26 @@ function createchore(){
 }
 
 //Not working
-function displayChores(){
+function displayChoreName(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             //var userId = firebase.auth().currentUser;
             var r = firebase.database().ref('/users/' + user.uid + "/chores");
             r.on('value', (snapshot) => {
-            const data = snapshot.val();
-            document.getElementById("displayChores").innerHTML = data
+                snapshot.forEach(function(childSnapshot) {
+                    // key will be "ada" the first time and "alan" the second time
+                    var key = childSnapshot.key;
+                    // childData will be the actual contents of the child
+                    var childData = childSnapshot.val();
+                    console.log(childData);
+                    document.getElementById("displayChores").innerHTML += (String(childData["cname"]) + " ");
+                  });   
     });
         } 
         else {
             document.getElementById("displayChores").innerHTML = "No chores created... YET!"
         }
     });
-}
-
-//Not working
-function displayCredits(){
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-            var r = firebase.database().ref('/users/' + user.uid + "/chores").orderByChild("/ccredits").limitToFirst(1);
-            r.on('value', (snapshot) => {
-            const data = snapshot.val();
-            document.getElementById("displayCredits").innerHTML = JSON.stringify(data);
-            
-    });
-        } else {
-          // No user is signed in.
-            document.getElementById("displayCredits").innerHTML = "You are not signed in!"
-        }
-      });
 }
 
 //Need to do

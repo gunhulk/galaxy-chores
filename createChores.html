@@ -14,14 +14,10 @@
 </head>
 
 <body>
-    <script>
-    displayChores();
-    displayUser()
-    </script>
-    <h1> Hello! </h1>
-    <h1 id = "display"></h1>
+    <h1> Mission Creator </h1>
 
     <h1> Create Mission </h1>
+    <input type="text" placeholder="Location Name" id="cLocation">
     <input type="text" placeholder="Mission name" id="cName">
     <input type="text" placeholder="Mission Description" id="cDescription">
     <input type="number" placeholder="Credits" id="cCredits">
@@ -30,6 +26,9 @@
     <button onclick="home()">Back</button>
 
     <h1> Your Missions </h1>
+    <script>
+    displayChoreName();
+    </script>
     <h1 id = "displayChores"></h1>     
 </body>
 </html>
