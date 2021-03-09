@@ -193,10 +193,10 @@ function createchore(){
         ccredits: +document.getElementById("cCredits").value,
         cexp: +document.getElementById("cExp").value
 });
-    displayChores();
+    displayChoreName();
 }
 
-//Not working
+//Almost
 function displayChoreName(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -208,8 +208,11 @@ function displayChoreName(){
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
                     var childData = childSnapshot.val();
-                    console.log(childData);
-                    document.getElementById("displayChores").innerHTML += (String(childData["cname"]) + " ");
+                    document.getElementById("displayChores").innerHTML += (String(childData["clocation"] +
+                    childData["cname"] +
+                    childData["cdescription"] +
+                    childData["ccredits"] +
+                    childData["cexp"]) + "<br />");
                   });   
     });
         } 
@@ -220,9 +223,29 @@ function displayChoreName(){
 }
 
 //Need to do
-function done(){
-    
-
+function choreDone(){
+    var userId = firebase.auth().currentUser.uid;
+    var r = firebase.database().ref('/users/' + userId + "/chores");
+    var u = firebase.database().ref('users/' + userId);
+            r.on('value', (snapshot) => {
+                u.on('value', (snap) =>{
+                    snapshot = snapshot.getPriority()
+                        // key will be "ada" the first time and "alan" the second time
+                    //var key = snapshot.key;
+                    // childData will be the actual contents of the child
+                    var choreData = snapshot.val();
+                    var userData = snap.val();
+                    console.log(userData["credits"]);
+                    console.log(choreData["ccredits"])
+                    u.update({
+                        credits: userData["credits"] + choreData["ccredits"],
+                        exp: userData["exp"] + choreData["cexp"],
+                        totalChoresDone: 1
+                });
+                
+});
+});
+//});
 }
 
 
