@@ -46,6 +46,7 @@ function setup(){
         email: email,
         credits: 0,
         exp: 0,
+        lvl: 0,
         setup: "done"
 }).then(function() {
     window.location = "home.html";
@@ -165,6 +166,10 @@ function home(){
     window.location="home.html";
 }
 
+function blogin(){
+    window.location="login.html";
+}
+
 function changeuser(){
     var userId = firebase.auth().currentUser.uid;
     database.ref("users/" + userId).update({name: document.getElementById("user").value});
@@ -208,10 +213,10 @@ function displayChoreName(){
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
                     var childData = childSnapshot.val();
-                    document.getElementById("displayChores").innerHTML += (String(childData["clocation"] +
-                    childData["cname"] +
-                    childData["cdescription"] +
-                    childData["ccredits"] +
+                    document.getElementById("displayChores").innerHTML += (String(childData["clocation"] + " " +
+                    childData["cname"] + " " +
+                    childData["cdescription"] + " " +
+                    childData["ccredits"] + " " +
                     childData["cexp"]) + "<br />");
                   });   
     });
@@ -222,30 +227,46 @@ function displayChoreName(){
     });
 }
 
-//Need to do
 function choreDone(){
-    var userId = firebase.auth().currentUser.uid;
-    var r = firebase.database().ref('/users/' + userId + "/chores");
-    var u = firebase.database().ref('users/' + userId);
-            r.on('value', (snapshot) => {
-                u.on('value', (snap) =>{
-                    snapshot = snapshot.getPriority()
-                        // key will be "ada" the first time and "alan" the second time
-                    //var key = snapshot.key;
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //var userId = firebase.auth().currentUser;
+            var r = firebase.database().ref('/users/' + user.uid + "/chores");
+            var u = firebase.database().ref('/users/' + user.uid);
+            r.once('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    // key will be "ada" the first time and "alan" the second time
+                    var key = childSnapshot.key;
                     // childData will be the actual contents of the child
-                    var choreData = snapshot.val();
-                    var userData = snap.val();
-                    console.log(userData["credits"]);
-                    console.log(choreData["ccredits"])
-                    u.update({
-                        credits: userData["credits"] + choreData["ccredits"],
-                        exp: userData["exp"] + choreData["cexp"],
-                        totalChoresDone: 1
-                });
-                
-});
-});
-//});
+                    window.choreData = childSnapshot.val();
+                    console.log(window.choreData["ccredits"])
+                    
+                  }); 
+                });  
+            u.once('value')
+                .then(function(childSnap){
+                    var userKey = childSnap.key;
+                    window.userData = childSnap.val();
+                    u.update({ 
+                        credits: window.choreData["ccredits"] + window.userData["credits"],
+                        exp: window.choreData["cexp"] + window.userData["exp"]
+        });         
+                });   
+            
+        } 
+        else {
+            document.getElementById("displayChores").innerHTML = "No chores created... YET!"
+        }
+    });
+}
+
+//Not working
+function lvlup(){
+    console.log(window.userData["exp"]);
+    if(window.userData["exp"] < 1000000){
+        document.getElementById("lvlup").innerHTML = window.userData["exp"];
+        console.log(window.userData["exp"]);
+    }
 }
 
 
