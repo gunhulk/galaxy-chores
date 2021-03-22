@@ -15,20 +15,55 @@
 <link rel="stylesheet" href="main.css">
 </head>
 
-<body  onload="lvlup()">
+<body>
     <script>
     displayUserName();
+    displayUserCredits();
+    displayUserExp();
     </script>
     <h1> Hello! </h1>
     <h1 id = "displayName"></h1>
+    <h1>Credits:</h1>
+    <h1 id= "displayCredits"></h1>
+    <h1>Experience Points:</h1>
+    <h1 id= "displayExp"></h1>
     <button onclick="createchores()" id="createchores"> Create Missions </button>
     <button onclick="logout()" id="logout"> Logout </button>
     <button onclick="settings()" id="settings"> Profile Settings </button>
     <button onclick="missions()" id="missions">Missions</button>
-    <p>Progress</p>
-    <div class="c">
-        <div class="exp html" id = "lvlup">90%</div>
-    </div>
+    <!--<h1>Progress</h1>
+    <div class="progress-bar">
+        <div class="progress-bar-value"></div>
+        <div class="progress-bar-fill"></div>
+    </div>-->
+
+    <!--Progress Bar-->
+    <!--<script>
+        
+        class ProgressBar{
+            constructor(element, initVal = 0){
+                this.valueElem = element.querySelector(".progress-bar-value");
+                this.fillElem = element.querySelector(".progress-bar-fill");
+                console.log(this.valueElem);
+                console.log(this.fillElem);
+        
+                this.setValue(initVal);
+            }
+            setValue(newValue){
+                this.value = newValue;
+                this.updateValue();
+            }
+            updateValue(){
+                const percentage = this.value + "%";
+                this.fillElem.style.width = percentage;
+                this.valueElem.textContent = percentage;
+            }
+        }
+        
+        new ProgressBar(document.querySelector(".progress-bar"), 10);
+    </script>-->
+    
+    
         
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>

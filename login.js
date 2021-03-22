@@ -44,6 +44,7 @@ function setup(){
     uListRef.set({
         name: document.getElementById("user").value,
         email: email,
+        rank: "Cadet",
         credits: 0,
         exp: 0,
         lvl: 0,
@@ -199,9 +200,45 @@ function createchore(){
         cexp: +document.getElementById("cExp").value
 });
     displayChoreName();
+    window.location="createChores.html";
 }
 
-//Almost
+function edit(){
+    window.location= "edit.html";
+}
+
+function editchore(){
+
+}
+
+function displayOneChore(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //var userId = firebase.auth().currentUser;
+            var r = firebase.database().ref('/users/' + user.uid + "/chores");
+            r.on('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot) {
+                    // key will be "ada" the first time and "alan" the second time
+                    var key = childSnapshot.key;
+                    // childData will be the actual contents of the child
+                    var childData = childSnapshot.val(); 
+                    document.getElementById("displayOneChore").innerHTML += (String(childData["clocation"] + " " +
+                    childData["cname"] + " " +
+                    childData["cdescription"] + " " +
+                    childData["ccredits"] + " " +
+                    childData["cexp"]) + "<br />"
+                    );
+                  });   
+    });
+         
+        } 
+        else {
+            document.getElementById("displayChores").innerHTML = "No user logged in"
+        }
+    });
+
+}
+
 function displayChoreName(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -212,8 +249,37 @@ function displayChoreName(){
                     // key will be "ada" the first time and "alan" the second time
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
-                    var childData = childSnapshot.val();
+                    var childData = childSnapshot.val(); 
                     document.getElementById("displayChores").innerHTML += (String(childData["clocation"] + " " +
+                    childData["cname"] + " " +
+                    childData["cdescription"] + " " +
+                    childData["ccredits"] + " " +
+                    childData["cexp"]) + "<br />" +
+                    "<button onclick=\"choreDone();\">Mission Complete</button><br>" +
+                    "<button onclick=\"edit();\">Edit Chore</button><br>"
+                    );
+                  });   
+    });
+         
+        } 
+        else {
+            document.getElementById("displayChores").innerHTML = "No user logged in"
+        }
+    });
+}
+
+//Almost Done! Need to let buttons work on different chores.
+function displayDefaultChores(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            var r = firebase.database().ref('/defaultChores/');
+            r.on('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot) {
+                    // key will be "ada" the first time and "alan" the second time
+                    var key = childSnapshot.key;
+                    // childData will be the actual contents of the child
+                    var childData = childSnapshot.val();
+                    document.getElementById("displayDefaultChores").innerHTML += (String(childData["clocation"] + " " +
                     childData["cname"] + " " +
                     childData["cdescription"] + " " +
                     childData["ccredits"] + " " +
@@ -222,11 +288,12 @@ function displayChoreName(){
     });
         } 
         else {
-            document.getElementById("displayChores").innerHTML = "No chores created... YET!"
+            document.getElementById("displayDefaultChores").innerHTML = "Not logged in"
         }
     });
 }
 
+//Almost Done! Need to let buttons work on different chores.
 function choreDone(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -239,7 +306,6 @@ function choreDone(){
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
                     window.choreData = childSnapshot.val();
-                    console.log(window.choreData["ccredits"])
                     
                   }); 
                 });  
@@ -250,23 +316,50 @@ function choreDone(){
                     u.update({ 
                         credits: window.choreData["ccredits"] + window.userData["credits"],
                         exp: window.choreData["cexp"] + window.userData["exp"]
-        });         
-                });   
+        });
+            levelup();   
+    });
+                
             
         } 
         else {
-            document.getElementById("displayChores").innerHTML = "No chores created... YET!"
+            document.getElementById("displayChores").innerHTML = "No user logged in"
         }
     });
+    
 }
 
-//Not working
-function lvlup(){
-    console.log(window.userData["exp"]);
-    if(window.userData["exp"] < 1000000){
-        document.getElementById("lvlup").innerHTML = window.userData["exp"];
-        console.log(window.userData["exp"]);
+//Done!
+function levelup(){
+    var ranks = ['Cadet', "Private", "Corporal", "Sergeant", "Master Sergeant", "Lieutenant", "First Lieutenant", "Captain", "Major", "Colonel", "General"]
+    var level = 0;
+    var experience = [0,100,200,400,800,1600,3200,6400,12800,25600,51200];
+    rank = "";
+    var i = 0;
+    var eLength = 11;
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            var u = firebase.database().ref('/users/' + user.uid);
+            u.on('value', (snapshot) => {
+                const data = snapshot.val();
+                while(eLength>1){
+                    eLength = eLength - 1;
+                    console.log(eLength);    
+                    if(data["exp"] >= experience[i]) {
+                      level = i;
+                      rank = ranks[i];
+                      u.update({ 
+                        lvl: level,
+                        rank: rank
+                    });   
+                    i += 1;    
+                }
+            }
+            
+        })
     }
+})
+
 }
 
 
