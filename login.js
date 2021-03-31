@@ -95,6 +95,11 @@ function sendEmail(){
     alert("Password Recovery Email Sent");
 }
 
+function popup() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+  }
+
 function settings(){
     window.location="settings.html";
 }
