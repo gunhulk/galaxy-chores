@@ -12,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
 <script src="login.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="login.css">
 </head>
 
 <body>
@@ -31,37 +31,6 @@
     <button onclick="logout()" id="logout"> Logout </button>
     <button onclick="settings()" id="settings"> Profile Settings </button>
     <button onclick="missions()" id="missions">Missions</button>
-    <!--<h1>Progress</h1>
-    <div class="progress-bar">
-        <div class="progress-bar-value"></div>
-        <div class="progress-bar-fill"></div>
-    </div>-->
-
-    <!--Progress Bar-->
-    <!--<script>
-        
-        class ProgressBar{
-            constructor(element, initVal = 0){
-                this.valueElem = element.querySelector(".progress-bar-value");
-                this.fillElem = element.querySelector(".progress-bar-fill");
-                console.log(this.valueElem);
-                console.log(this.fillElem);
-        
-                this.setValue(initVal);
-            }
-            setValue(newValue){
-                this.value = newValue;
-                this.updateValue();
-            }
-            updateValue(){
-                const percentage = this.value + "%";
-                this.fillElem.style.width = percentage;
-                this.valueElem.textContent = percentage;
-            }
-        }
-        
-        new ProgressBar(document.querySelector(".progress-bar"), 10);
-    </script>-->
     
     
         
