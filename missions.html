@@ -15,20 +15,21 @@
 <link rel="stylesheet" href="main.css">
 </head>
 
-<body>
+<body onload="levelup()">
     <script>displayUserName();</script>
     <h1> Hello! </h1>
     <h1 id = "displayName"></h1>
     
     <h1>Your Missions:</h1>
     <script>displayChoreName()</script>
-    <h1 id = displayChores></h1>
-    <div id="cDone"></div>
-
-    <h1>Default Missions:</h1>
+    <div class=b>
+        <h1 id = displayChores></h1>
+    </div>
+    <!--<h1>Default Missions:</h1>
     <script>displayDefaultChores()</script>
-    <h1 id = displayDefaultChores></h1>
+    <h1 id = displayDefaultChores></h1>-->
     <button onclick="home()"> Back </button>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
 </body>
 </html>

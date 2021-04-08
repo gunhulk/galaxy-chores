@@ -167,6 +167,22 @@ function displayUserCredits(){
         }
       });  
 }
+
+function displayUserRank(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+            var r = firebase.database().ref('/users/' + user.uid + "/rank");
+            r.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById("displayRank").innerHTML = data;
+    });
+        } else {
+          // No user is signed in.
+            document.getElementById("displayRank").innerHTML = "You are not signed in!"
+        }
+      });  
+}
   
 function home(){
     window.location="home.html";
@@ -255,15 +271,18 @@ function displayChoreName(){
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
                     var childData = childSnapshot.val(); 
+                    
                     document.getElementById("displayChores").innerHTML += (String(childData["clocation"] + " " +
                     childData["cname"] + " " +
                     childData["cdescription"] + " " +
                     childData["ccredits"] + " " +
                     childData["cexp"]) + "<br />" +
-                    "<button onclick=\"choreDone();\">Mission Complete</button><br>" +
+                    "<button class='chorebtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDone();\">Mission Complete</button><br>" +
                     "<button onclick=\"edit();\">Edit Chore</button><br>"
                     );
-                  });   
+                    
+                  });
+                     
     });
          
         } 
@@ -277,23 +296,29 @@ function displayChoreName(){
 function displayDefaultChores(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-            var r = firebase.database().ref('/defaultChores/');
+            //var userId = firebase.auth().currentUser;
+            var r = firebase.database().ref("/defaultChores/");
             r.on('value', (snapshot) => {
                 snapshot.forEach(function(childSnapshot) {
                     // key will be "ada" the first time and "alan" the second time
                     var key = childSnapshot.key;
                     // childData will be the actual contents of the child
-                    var childData = childSnapshot.val();
+                    var childData = childSnapshot.val(); 
+                    
                     document.getElementById("displayDefaultChores").innerHTML += (String(childData["clocation"] + " " +
                     childData["cname"] + " " +
                     childData["cdescription"] + " " +
                     childData["ccredits"] + " " +
-                    childData["cexp"]) + "<br />");
-                  });   
+                    childData["cexp"]) + "<br />" +
+                    "<button class='chorebtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDone();\">Mission Complete</button><br>"
+                    );  
+                });
+                     
     });
+         
         } 
         else {
-            document.getElementById("displayDefaultChores").innerHTML = "Not logged in"
+            document.getElementById("displayDefaultChores").innerHTML = "No user logged in"
         }
     });
 }
@@ -303,29 +328,30 @@ function choreDone(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             //var userId = firebase.auth().currentUser;
+            var i = 0;
             var r = firebase.database().ref('/users/' + user.uid + "/chores");
             var u = firebase.database().ref('/users/' + user.uid);
-            r.once('value', (snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    // key will be "ada" the first time and "alan" the second time
-                    var key = childSnapshot.key;
-                    // childData will be the actual contents of the child
-                    window.choreData = childSnapshot.val();
-                    
-                  }); 
-                });  
+            const b = document.querySelectorAll(".chorebtn");
+            b.forEach(childSnapshot => childSnapshot.addEventListener("click", function() {
+                window.resultExp = parseInt(childSnapshot.value);
+                window.resultCredits = parseInt(childSnapshot.getAttribute("data-value"));   
+            }));
             u.once('value')
                 .then(function(childSnap){
                     var userKey = childSnap.key;
                     window.userData = childSnap.val();
                     u.update({ 
-                        credits: window.choreData["ccredits"] + window.userData["credits"],
-                        exp: window.choreData["cexp"] + window.userData["exp"]
-        });
-            levelup();   
+                        credits: window.resultCredits + window.userData["credits"],
+                        exp: window.resultExp + window.userData["exp"]
+          });
+        //levelup(); 
+        location.reload();
+        window.onload = levelup();
+
     });
-                
             
+                
+                         
         } 
         else {
             document.getElementById("displayChores").innerHTML = "No user logged in"
@@ -339,7 +365,7 @@ function levelup(){
     var ranks = ['Cadet', "Private", "Corporal", "Sergeant", "Master Sergeant", "Lieutenant", "First Lieutenant", "Captain", "Major", "Colonel", "General"]
     var level = 0;
     var experience = [0,100,200,400,800,1600,3200,6400,12800,25600,51200];
-    rank = "";
+    var rank = "";
     var i = 0;
     var eLength = 11;
     firebase.auth().onAuthStateChanged(function(user) {
@@ -349,7 +375,7 @@ function levelup(){
                 const data = snapshot.val();
                 while(eLength>1){
                     eLength = eLength - 1;
-                    console.log(eLength);    
+                    //console.log(eLength);    
                     if(data["exp"] >= experience[i]) {
                       level = i;
                       rank = ranks[i];

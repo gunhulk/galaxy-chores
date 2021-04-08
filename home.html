@@ -16,24 +16,47 @@
 </head>
 
 <body>
-    <script>
-    displayUserName();
-    displayUserCredits();
-    displayUserExp();
-    </script>
-    <h1> Hello! </h1>
-    <h1 id = "displayName"></h1>
-    <h1>Credits:</h1>
-    <h1 id= "displayCredits"></h1>
-    <h1>Experience Points:</h1>
-    <h1 id= "displayExp"></h1>
-    <button onclick="createchores()" id="createchores"> Create Missions </button>
-    <button onclick="logout()" id="logout"> Logout </button>
-    <button onclick="settings()" id="settings"> Profile Settings </button>
-    <button onclick="missions()" id="missions">Missions</button>
+    <nav class="navbar">
+        <ul class="leftnav" id="leftnav">
+            <div class="logo">
+                <img src="images/Galaxy Chores Logo.png" alt="" onclick="home()"></div>
+                <li><button onclick="createchores()" class="homebtn" id="createchores"> Create Missions </button></li>
+                <li><button onclick="missions()" class="homebtn" id="missions">Complete Missions</button></li>
+                <li><button onclick="settings()" class="homebtn" id="settings"> Profile Settings </button></li>
+                <li><button onclick="logout()" class="homebtn" id="logout"> Logout </button></li>
+            </li>
+        </ul>
+    </nav>
+
+    <img src="images/rocket.gif" alt="" class="rocket" width=200px></div> 
     
-    
+    <div class="login">  
+         
+        <script>
+        displayUserName();
+        displayUserCredits();
+        displayUserExp();
+        displayUserRank();
+        </script>
+        <div class="move">
+            <div class="block">
+                <h1 class="bt1"> Hello </h1>
+                <h1 class="bt2" id="displayRank"></h1>
+                <h1 class="bt2" id = "displayName"></h1>
+            </div>
+            <div class="block">
+                <h1 class="bt1">Credits:</h1>
+                <h1 class="bt2" id= "displayCredits"></h1>
+            </div>
+            <div class="block">
+                <h1 class="bt1">Experience Points:</h1>
+                <h1 class="bt2" id= "displayExp"></h1>
+            </div>
+        </div>
         
+    </div>   
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    
 </body>
 </html>
