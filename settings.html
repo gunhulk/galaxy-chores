@@ -12,30 +12,52 @@
 <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js"></script>
 <script src="login.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="login.css">
 </head>
 
 <body>
-    <h1>Settings</h1>
-    
-    <input type="text" placeholder="Change Username" id="user">
-    <button onclick="changeuser()" id="changeuser"> Submit </button>
-    <button onclick="home()"> Back </button>
+    <div class="login">
+        <div class="split left">
+                <h1>Profile Settings</h1>
+                <form method="">
+                    <input class="in" type="text" placeholder="Change Username" id="user">
+                </form>
+                <button onclick="changeuser()" class="btn btn-primary" id="changeuser"> Submit </button>
 
-    <script>
-    displayUserName();
-    displayUserEmail();
-    displayUserExp();
-    displayUserCredits();
-    </script>
-    <p>Username:</p>
-    <p id = "displayName"></p>
-    <p>Email:</p>
-    <p id = "displayEmail"></p>
-    <p>Credits:</p>
-    <p id = "displayCredits"></p>
-    <p>Experience Points:</p>
-    <p id= "displayExp"></p>
+                <script>
+                displayUserName();
+                displayUserEmail();
+                displayUserExp();
+                displayUserCredits();
+                </script>
+            
+                <div class="block">
+                    <p class="bt1">Username:</p>
+                    <p class="bt2" id = "displayName"></p>
+                </div>
+                <div class="block">
+                    <p class="bt1">Email:</p>
+                    <p class="bt2" id = "displayEmail"></p>
+                </div>
+                <div class="block">
+                    <p class="bt1">Credits:</p>
+                    <p class="bt2" id = "displayCredits"></p>
+                </div>
+                <div class="block">
+                    <p class="bt1">Experience Points:</p>
+                    <p class="bt2" id= "displayExp"></p>
+            </div>
+    </div>
+        <div class="split right">
+                <h1> Cashout </h1>
+                <form method="">
+                    <input class="in" type="text" placeholder="Cashout Credit Amount" id="cashout">
+                </form>
+                <button onclick="cashout()" class="btn btn-primary" id="changeuser"> Cashout </button>
+        </div>
+    <button onclick="home()" class="btn bsettings btn-dark">Go Back </button>
+</div>
+        
        
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 

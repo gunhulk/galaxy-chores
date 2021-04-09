@@ -175,7 +175,7 @@ function displayUserRank(){
             var r = firebase.database().ref('/users/' + user.uid + "/rank");
             r.on('value', (snapshot) => {
             const data = snapshot.val();
-            document.getElementById("displayRank").innerHTML = data;
+            document.getElementById("displayRank").innerHTML = data + "  ";
     });
         } else {
           // No user is signed in.

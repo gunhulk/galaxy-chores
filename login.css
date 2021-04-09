@@ -57,6 +57,7 @@ body {
 }
 .login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 .login h3 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
+.p{color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center;}
 
 input { 
 	width: 100%; 
@@ -134,7 +135,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
   }
 
   .logo{
-    width: 25%;
+    width: 35%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -201,11 +202,12 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	display:block;
 	text-decoration:none;
 	margin:0 auto;
-	border-radius:5px;
+	border-radius:35px;
 	border:solid 1px rgb(140, 49, 226);
 	background:blueviolet;
 	text-align:center;
 	padding:10px 20px;
+	font-weight: 900;
   font-size:20px;
 	
 	-webkit-transition: all 0.1s;
@@ -235,6 +237,10 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	font-weight: 900;
 }
 
+.bt3{
+	font-weight: 900;
+}
+
 .rocket{
 	height: 100%;
 	width: 100%;
@@ -247,4 +253,31 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	margin: -80px 0 0 0;
 	width:100%;
 	height:300px;
+}
+
+.split{
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  padding-right: 150px;
+  padding-left: 150px;
+}
+
+.left{
+	color: white;
+	left: 0;
+}
+
+.right{
+	right:0;
+}
+
+
+.bsettings{
+	margin-top: 50%;
+	margin-left: 20px;
+	width:55%;
 }
