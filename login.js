@@ -48,6 +48,8 @@ function setup(){
         credits: 0,
         exp: 0,
         lvl: 0,
+        lvlB: 500,
+        pending:0,
         setup: "done"
 }).then(function() {
     window.location = "home.html";
@@ -152,6 +154,38 @@ function displayUserExp(){
       });  
 }
 
+function displayUserBonus(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+            var r = firebase.database().ref('/users/' + user.uid + "/lvlB");
+            r.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById("displayBonus").innerHTML = data;
+    });
+        } else {
+          // No user is signed in.
+            document.getElementById("displayBonus").innerHTML = "You are not signed in!"
+        }
+      });  
+}
+
+function displayUserlvl(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+            var r = firebase.database().ref('/users/' + user.uid + "/lvl");
+            r.on('value', (snapshot) => {
+            const data = snapshot.val();
+            document.getElementById("displaylvl").innerHTML = data;
+    });
+        } else {
+          // No user is signed in.
+            document.getElementById("displaylvl").innerHTML = "You are not signed in!"
+        }
+      });  
+}
+
 function displayUserCredits(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -196,6 +230,16 @@ function changeuser(){
     var userId = firebase.auth().currentUser.uid;
     database.ref("users/" + userId).update({name: document.getElementById("user").value});
     displayUserName();
+    displayUserEmail();
+    displayUserExp();
+    displayUserCredits();
+}
+
+function changebonus(){
+    var userId = firebase.auth().currentUser.uid;
+    database.ref("users/" + userId).update({lvlB: parseInt(document.getElementById("lvlB").value)});
+    displayUserName();
+    displayUserBonus();
     displayUserEmail();
     displayUserExp();
     displayUserCredits();
@@ -332,6 +376,7 @@ function choreDone(){
             var r = firebase.database().ref('/users/' + user.uid + "/chores");
             var u = firebase.database().ref('/users/' + user.uid);
             const b = document.querySelectorAll(".chorebtn");
+            
             b.forEach(childSnapshot => childSnapshot.addEventListener("click", function() {
                 window.resultExp = parseInt(childSnapshot.value);
                 window.resultCredits = parseInt(childSnapshot.getAttribute("data-value"));   
@@ -346,7 +391,7 @@ function choreDone(){
           });
         //levelup(); 
         location.reload();
-        window.onload = levelup();
+        //window.onload = levelup();
 
     });
             
@@ -371,27 +416,110 @@ function levelup(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             var u = firebase.database().ref('/users/' + user.uid);
-            u.on('value', (snapshot) => {
+            
+            
+            u.once('value', (snapshot) => {
                 const data = snapshot.val();
+                window.savelevel = data["lvl"];   
                 while(eLength>1){
-                    eLength = eLength - 1;
-                    //console.log(eLength);    
+                    eLength = eLength - 1; 
                     if(data["exp"] >= experience[i]) {
                       level = i;
                       rank = ranks[i];
                       u.update({ 
                         lvl: level,
-                        rank: rank
-                    });   
-                    i += 1;    
+                        rank: rank,
+                    });
+                    i += 1;
                 }
+                
+                
+            } 
+            i = i - 1;
+            if(data["lvl"] < i){
+                u.update({ 
+                    credits: data["credits"] + data["lvlB"]   
+                });
             }
+            console.log(data["lvl"]);
+            console.log("boom " + i);
             
+            
+         
+        
         })
+        
     }
 })
 
 }
+
+function cashout(){
+    var userId = firebase.auth().currentUser.uid;
+    var uc = firebase.database().ref('/users/' + userId);
+    uc.once('value')
+        .then(function(childSnap){
+            var userD = childSnap.val()
+            console.log(userD["credits"]);
+            if(userD["credits"] < document.getElementById("cashout").value){
+                alert("You do not have that many credits. Please enter in another amount.");
+            }
+            else{
+                uc.update({credits: userD["credits"] - document.getElementById("cashout").value,
+                pending: parseInt(userD["pending"]) + parseInt(document.getElementById("cashout").value)});
+            }
+        });  
+}
+
+function displayPending(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //var userId = firebase.auth().currentUser;
+            var r = firebase.database().ref('/users/' + user.uid);
+            r.on('value', (snapshot) => {
+                // key will be "ada" the first time and "alan" the second time
+                var key = snapshot.key;
+                // childData will be the actual contents of the child
+                var childData = snapshot.val(); 
+                document.getElementById("pending").innerHTML = parseInt(childData["pending"]);
+                });   
+}
+});
+}
+
+function withdraw(){
+    var userId = firebase.auth().currentUser.uid;
+    var uc = firebase.database().ref('/users/' + userId);
+    uc.once('value')
+        .then(function(childSnap){
+            var userD = childSnap.val()
+            if(userD["pending"] === 0){
+                alert("You have no pending balance");
+            }
+            else{uc.update({pending: 0});
+            alert("Withdraw Successful");
+        }
+            
+        }); 
+}
+
+function cwithdraw(){
+    var userId = firebase.auth().currentUser.uid;
+    var uc = firebase.database().ref('/users/' + userId);
+    uc.once('value')
+        .then(function(childSnap){
+            var userD = childSnap.val()
+            if(userD["pending"] === 0){
+                alert("You have no pending balance");
+            }
+            else{uc.update({pending: 0,
+                credits: parseInt(userD["credits"]) + parseInt(userD["pending"])
+            });
+            alert("Withdraw Cancelled");
+        } 
+        });
+}
+
 
 
 

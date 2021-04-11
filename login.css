@@ -277,7 +277,23 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 
 
 .bsettings{
-	margin-top: 50%;
-	margin-left: 20px;
-	width:55%;
+	position: relative;
+	margin-top: 20px;
+	right: -0;
+}
+
+.pending{
+	margin-top: 50px;
+}
+
+#withdraw{
+	margin-top: 20px;
+}
+
+#cwithdraw{
+	margin-top: 20px;
+}
+
+#lvlB{
+	margin-top: 20px;
 }
