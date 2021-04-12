@@ -102,6 +102,39 @@ function popup() {
     popup.classList.toggle("show");
   }
 
+function createpop() {
+    document.getElementById('displayChangeCredits').style.display = "block";
+    document.getElementById('displayChangeCredits').style.display = "block";
+}
+
+function editChore(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //var userId = firebase.auth().currentUser;
+            var i = 0;
+            var r = firebase.database().ref('/users/' + user.uid + "/chores");
+            const b = document.querySelectorAll(".chorebtn");
+            b.forEach(childSnapshot => childSnapshot.addEventListener("click", function() {
+                window.resultExp = parseInt(childSnapshot.value);
+                window.resultCredits = parseInt(childSnapshot.getAttribute("data-value"));
+                keys = childSnapshot.getAttribute("data-id");
+                console.log(keys);
+                r.child(keys).update({
+                    ccredits: +document.getElementById("editCredit").value,
+                    cexp: +document.getElementById("editExp").value
+            });
+                //location.reload();   
+            }));
+        //levelup(); 
+        //window.onload = levelup();
+        } 
+        else {
+            document.getElementById("displayChores").innerHTML = "No user logged in"
+        }
+    });
+    
+}
+
 function settings(){
     window.location="settings.html";
 }
@@ -268,14 +301,6 @@ function createchore(){
     window.location="createChores.html";
 }
 
-function edit(){
-    window.location= "edit.html";
-}
-
-function editchore(){
-
-}
-
 function displayOneChore(){
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
@@ -316,13 +341,46 @@ function displayChoreName(){
                     // childData will be the actual contents of the child
                     var childData = childSnapshot.val(); 
                     
-                    document.getElementById("displayChores").innerHTML += (String(childData["clocation"] + " " +
-                    childData["cname"] + " " +
-                    childData["cdescription"] + " " +
-                    childData["ccredits"] + " " +
+                    document.getElementById("displayChores").innerHTML += (String("Location: " + childData["clocation"] + " Name: " +
+                    childData["cname"] + "<br />" + " Description: " +
+                    childData["cdescription"] + "<br />" + " Credits: " +
+                    childData["ccredits"] + "<br />" + " Experience: " +
                     childData["cexp"]) + "<br />" +
-                    "<button class='chorebtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDone();\">Mission Complete</button><br>" +
-                    "<button onclick=\"edit();\">Edit Chore</button><br>"
+                    "<button class='chorebtn homebtn bt1 mbtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDone();\">Mission Complete</button><br>"
+                    + "<hr />"
+                    );
+                    
+                  });
+                     
+    });
+         
+        } 
+        else {
+            document.getElementById("displayChores").innerHTML = "No user logged in"
+        }
+    });
+}
+
+function displayChoreNameCreate(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //var userId = firebase.auth().currentUser;
+            var r = firebase.database().ref('/users/' + user.uid + "/chores").orderByChild("clocation");
+            r.on('value', (snapshot) => {
+                snapshot.forEach(function(childSnapshot) {
+                    // key will be "ada" the first time and "alan" the second time
+                    var keys = childSnapshot.key;
+                    // childData will be the actual contents of the child
+                    var childData = childSnapshot.val(); 
+                    
+                    document.getElementById("displayChoresCreate").innerHTML += (String("Location: " + childData["clocation"] + "<br />" + " Mission: " +
+                    childData["cname"] + "<br />" + " Description: " +
+                    childData["cdescription"] + "<br />" + " Credits: " +
+                    childData["ccredits"] + "<br />" + " Experience: " +
+                    childData["cexp"]) +
+                    "<div class='block'><button class='chorebtn homebtn bt1 mbtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"createpop();\"><i class='fas fa-tools'></i> Edit Chore</button><button class='chorebtn homebtn bt2 mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDelete();\"><i class='fas fa-trash-alt'></i> Delete Chore</button></div><br>" + 
+                    "<form id='displayChangeCredits' style='display:none;'><label>Change Credits: </label><br><input type='text' id='editCredit' ><label>Change Experience: </label><br><input type='text' id='editExp' ><button class='chorebtn homebtn bt2 mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"editChore();\">Submit</button></form>" +
+                    "<hr />"
                     );
                     
                   });
@@ -440,6 +498,7 @@ function levelup(){
                 u.update({ 
                     credits: data["credits"] + data["lvlB"]   
                 });
+                alert("Congratulations you just leveled up!");
             }
             console.log(data["lvl"]);
             console.log("boom " + i);
@@ -518,6 +577,32 @@ function cwithdraw(){
             alert("Withdraw Cancelled");
         } 
         });
+}
+
+function choreDelete(){
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            //var userId = firebase.auth().currentUser;
+            var i = 0;
+            var r = firebase.database().ref('/users/' + user.uid + "/chores");
+            var u = firebase.database().ref('/users/' + user.uid);
+            const b = document.querySelectorAll(".chorebtn");
+            b.forEach(childSnapshot => childSnapshot.addEventListener("click", function() {
+                window.resultExp = parseInt(childSnapshot.value);
+                window.resultCredits = parseInt(childSnapshot.getAttribute("data-value"));
+                keys = childSnapshot.getAttribute("data-id");
+                console.log(r.child(keys));
+                r.child(keys).remove();
+                location.reload();   
+            }));
+        //levelup(); 
+        //window.onload = levelup();
+        } 
+        else {
+            document.getElementById("displayChores").innerHTML = "No user logged in"
+        }
+    });
+    
 }
 
 
