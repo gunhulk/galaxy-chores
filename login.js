@@ -346,7 +346,7 @@ function displayChoreName(){
                     childData["cdescription"] + "<br />" + " Credits: " +
                     childData["ccredits"] + "<br />" + " Experience: " +
                     childData["cexp"]) + "<br />" +
-                    "<button class='chorebtn homebtn bt1 mbtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDone();\">Mission Complete</button><br>"
+                    "<button class='chorebtn homebtnc bt5' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDone();\">Mission Complete</button><br>"
                     + "<hr />"
                     );
                     
@@ -378,8 +378,7 @@ function displayChoreNameCreate(){
                     childData["cdescription"] + "<br />" + " Credits: " +
                     childData["ccredits"] + "<br />" + " Experience: " +
                     childData["cexp"]) +
-                    "<div class='block'><button class='chorebtn homebtn bt1 mbtn' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"createpop();\"><i class='fas fa-tools'></i> Edit Chore</button><button class='chorebtn homebtn bt2 mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDelete();\"><i class='fas fa-trash-alt'></i> Delete Chore</button></div><br>" + 
-                    "<form id='displayChangeCredits' style='display:none;'><label>Change Credits: </label><br><input type='text' id='editCredit' ><label>Change Experience: </label><br><input type='text' id='editExp' ><button class='chorebtn homebtn bt2 mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"editChore();\">Submit</button></form>" +
+                    "<button class='chorebtn homebtn mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDelete();\"><i class='fas fa-trash-alt'></i> Delete Chore</button></div><br>" + 
                     "<hr />"
                     );
                     

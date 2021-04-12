@@ -276,6 +276,13 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	display:inline;
 }
 
+.bt5{
+	display:inline;
+	margin-left: 36%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
 .rocket{
 	height: 100%;
 	width: 100%;
@@ -457,15 +464,12 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	padding-right: 10px;
   }
 
-  .mbtn{
-	  
-  }
 
   .mbtn{
 	position:relative;
 	width:160px;
 	color:#FFF;
-	display:inline;
+	display:relative;
 	text-decoration:none;
 	border-radius:35px;
 	border:solid 1px rgb(140, 49, 226);
@@ -473,7 +477,6 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	text-align:center;
 	font-weight: 900;
   	font-size:20px;
-	margin-right: 15%;
 	margin-top: 5%;
 	padding: 6px;
 	
@@ -497,7 +500,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	position:relative;
 	width:160px;
 	color:#FFF;
-	display:inline;
+	display:relative;
 	text-decoration:none;
 	border-radius:35px;
 	border:solid 1px rgb(196, 8, 8);
@@ -505,7 +508,7 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	text-align:center;
 	font-weight: 900;
 		font-size:20px;
-	margin-right: 15%;
+	margin-right: 70%;
 	margin-top: 5%;
 	padding: 6px;
 	
@@ -524,3 +527,5 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	position:relative;
 	top:7px;
 	}
+
+	
