@@ -378,7 +378,7 @@ function displayChoreNameCreate(){
                     childData["cdescription"] + "<br />" + " Credits: " +
                     childData["ccredits"] + "<br />" + " Experience: " +
                     childData["cexp"]) +
-                    "<button class='chorebtn homebtn mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDelete();\"><i class='fas fa-trash-alt'></i> Delete Chore</button></div><br>" + 
+                    "<button class='chorebtn homebtn mbtn dbtn'  data-id='"+keys+"' data-value='"+childData["ccredits"]+"' value= '"+childData["cexp"]+"' onclick=\"choreDelete();\"><i class='fas fa-trash-alt'></i> Delete Mission</button></div><br>" + 
                     "<hr />"
                     );
                     
